@@ -1,28 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
+import {nanoid} from 'nanoid'
 
 const headerHeight = '80px';
 const headerLinkTextSize = '24px';
 
 
-const HeaderLine = styled.div`
+const Flex = styled.div`
   display: flex;
-  justify-content: center;
-  height: 85vh;
-  align-items: center;
-  // height: ${headerHeight}; 
-  // border-bottom: 1px solid grey;
+  align-items: start;
 `
 
-const TitleLogo = styled.div`
-  color: ${colors.blue};
-  margin: 14px 80px 0 20px;
-  cursor: default;
+const Vertical = styled(Flex)`
+  flex-direction: column;
 `
 
-const LinksBox = styled.div`
-  display: flex;
+const RadioList = styled(Flex)`
+  margin-bottom: 10px;
 `
 
 
@@ -36,35 +31,27 @@ const HeaderLink = styled.div<{ active?: boolean }>`
 `
 
 
-const LoggedName = styled.b`
-  line-height: ${headerHeight}; 
-  margin-right: 20px;
-`
-
-const FlexCont = styled.div`
+const Title = styled.b`
   display: flex;
+  color: ${colors.blue};
+  // justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
 `
 
-const FieldsName = styled(FlexCont)`
+const FieldsName = styled(Title)`
     color: grey;
     font-size: 12px;
 `
 
-const Title = styled.b`
-  display: flex;
-  color: ${colors.blue};
-  justify-content: center;
-  font-size: 22px;
-  margin-bottom: 40px;
-`
 
 const InputBox = styled.div`
   // width: 350px;
   margin-bottom: 20px;
 `
 
-const InputField = styled.input`
-  width: 350px;
+const Column = styled.div`
+  margin: 50px 0 0 30px;
 `
 
 const SubmitButton = styled.div`
@@ -79,26 +66,76 @@ const SubmitButton = styled.div`
 `
 
 
-function Header() {
+const CardWrapper = styled.div`
+  border: 1px solid grey;
+`
+
+
+const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
+const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
+const other: string[] = ['Участвую', 'Ограничение по количеству']
+
+
+function Card() {
     return (
-        <HeaderLine>
+        <CardWrapper style={{display: 'flex'}}>
             <div>
-                <Title>Авторизация</Title>
-                <InputBox>
-                    <FieldsName>Логин</FieldsName>
-                    <InputField type={"text"}/>
-                </InputBox>
-                <InputBox>
-                    <FieldsName>Пароль</FieldsName>
-                    <InputField type={"password"}/>
-                </InputBox>
-                <FlexCont style={{justifyContent: 'end'}}>
-                    <SubmitButton>Войти</SubmitButton>
-                </FlexCont>
+                <div style={{width: '100px', height: '70px', backgroundColor: 'lightgrey'}}/>
             </div>
-        </HeaderLine>
+            <div>
+                <div>Пикник с клубом кулинарии</div>
+                <div style={{color: colors.headerLinkInactive}}>12:00 - 13:00</div>
+            </div>
+        </CardWrapper>
+    )
+}
+
+function Calendar() {
+    return (
+        <Flex>
+            <Column style={{width: '300px'}}>
+                <Vertical>
+                    <Title>Города</Title>
+                    <Vertical>
+                        {cities.map(item => {
+                            return <RadioList>
+                                <input type={"radio"} id={item} key={nanoid()}/>
+                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
+                            </RadioList>
+                        })}
+                    </Vertical>
+                </Vertical>
+                <Vertical style={{marginTop: '10px'}}>
+                    <Title>Направление</Title>
+                    <Vertical>
+                        {directions.map(item => {
+                            return <RadioList>
+                                <input type={"checkbox"} id={item} key={nanoid()}/>
+                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
+                            </RadioList>
+                        })}
+                    </Vertical>
+                </Vertical>
+            </Column>
+            <Column style={{width: '350px'}}>
+                <Vertical style={{marginTop: '10px'}}>
+                    <Title>Прочее</Title>
+                    <Vertical>
+                        {other.map(item => {
+                            return <RadioList>
+                                <input type={"checkbox"} id={item} key={nanoid()}/>
+                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
+                            </RadioList>
+                        })}
+                    </Vertical>
+                </Vertical>
+            </Column>
+            <Column style={{width: '40%'}}>
+                <Card/>
+            </Column>
+        </Flex>
     );
 }
 
 
-export default Header;
+export default Calendar;

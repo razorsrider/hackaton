@@ -1,48 +1,5 @@
-import {
-  Item,
-  IResource,
-  StatusItem,
-  ProjectStatusItem,
-  ICount,
-  IStat,
-  IItemsResource,
-  IPresaleStats,
-} from '@/model/resources';
 
-export interface ResourceState {
-  data: IItemsResource;
-  meta: {
-    levels: string[];
-    english: string[];
-    frontendTechnologies: string[];
-    managers: Item[];
-    intProjects: Item[];
-    statuses: StatusItem[];
-    extProjectsStatuses: ProjectStatusItem[];
-    generalTechnologies: string[];
-  };
-  summary: {
-    stat: IStat[];
-    count: ICount[];
-  };
-  filter: {
-    name: string;
-    levels: string;
-    frontendTechnologies: string;
-    generalTechnologies: string;
-    managerIds: string;
-    english: string;
-    statusIds: string;
-    sortBy: string;
-  };
-  presaleStats: IPresaleStats[];
-  editing: boolean;
-  editId: number | null;
 
-  loading: boolean;
-  metaLoading: boolean;
-  error: null | string;
-}
 
 export enum ResourceActionTypes {
   SET_RESOURCE = 'SET_RESOURCE',
@@ -72,48 +29,11 @@ export interface SetResourceAction {
     total: number;
   };
 }
-export interface UpdateResourceAction {
-  type: ResourceActionTypes.UPDATE_RESOURCE;
-  payload: IResource;
-}
-export interface SetMetaSummaryAction {
-  type: ResourceActionTypes.SET_META_SUMMARY;
-  payload: {
-    meta: {
-      levels: string[];
-      english: string[];
-      frontendTechnologies: string[];
-      statuses: StatusItem[];
-      managers: Item[];
-      intProjects: Item[];
-      extProjectsStatuses: ProjectStatusItem[];
-      generalTechnologies: string[];
-    };
-    summary: any;
-  };
-}
 export interface SetSummaryAction {
   type: ResourceActionTypes.SET_SUMMARY;
   payload: any;
 }
 
-export interface SetPresaleStatsAction {
-  type: ResourceActionTypes.SET_PRESALE_STATS;
-  payload: IPresaleStats[];
-}
-export interface SetStatAction {
-  type: ResourceActionTypes.SET_STAT;
-  payload: IStat[];
-}
-
-export interface UpdateSummaryAction {
-  type: ResourceActionTypes.UPDATE_SUMMARY;
-  payload: StatusItem;
-}
-export interface DeleteFromSummaryAction {
-  type: ResourceActionTypes.DELETE_FROM_SUMMARY;
-  payload: Item;
-}
 export interface SetFilterAction {
   type: ResourceActionTypes.SET_FILTER;
   payload: { key: string; value: string | number };
@@ -153,12 +73,7 @@ export interface UpdateSummaryAfterFilterAction {
 
 export type ResourceAction =
   | SetResourceAction
-  | UpdateResourceAction
-  | SetMetaSummaryAction
   | SetSummaryAction
-  | SetStatAction
-  | UpdateSummaryAction
-  | DeleteFromSummaryAction
   | SetLoadingAction
   | SetMetaLoadingAction
   | SetEditingAction
@@ -166,5 +81,4 @@ export type ResourceAction =
   | SetFilterAction
   | ResetFilterAction
   | DeleteResourceAction
-  | UpdateSummaryAfterFilterAction
-  | SetPresaleStatsAction;
+  | UpdateSummaryAfterFilterAction;

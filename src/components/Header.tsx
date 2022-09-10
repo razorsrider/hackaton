@@ -1,45 +1,85 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { store } from './store';
-import { BrowserRouter } from 'react-router-dom';
+import React from 'react'
+import styled from 'styled-components'
+import {colors} from '../styles/variables'
+
+const headerHeight = '80px';
+const headerLinkTextSize = '24px';
 
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const HeaderLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: ${headerHeight}; 
+  border-bottom: 1px solid grey;
+`
+
+
+const LinksBox = styled.div`
+  display: flex;
+`
+
+const TitleLogo = styled.div`
+  color: ${colors.blue};
+  margin: 14px 80px 0 20px;
+  cursor: default;
+  text-align: center;
+`
+
+
+const HeaderLink = styled.div<{ active?: boolean }>`
+  color: ${({active}) => active ? 'black' : colors.headerLinkInactive};
+  line-height: ${headerHeight};
+  font-size: ${headerLinkTextSize};
+  margin-right: 50px;
+  cursor: pointer;
+}
+`
+
+const LoggedName = styled.b`
+  line-height: ${headerHeight}; 
+  margin-right: 20px;
+`
+
+const Ava = styled.div`
+  padding: 15px 0;
+  margin-right: 20px;
+`
+
+const HeadbarSide = styled.div`
+  display: flex;
+`
+
+
+function Header() {
+    return (
+        <HeaderLine>
+            <HeadbarSide>
+                <TitleLogo>
+                    <b style={{fontSize: '26px'}}>SimbirSoft</b>
+                    <div style={{fontSize: '16px'}}>Все мероприятия в одном месте</div>
+                </TitleLogo>
+                {true && <LinksBox>
+                  <HeaderLink active>
+                    Календарь
+                  </HeaderLink>
+                  <HeaderLink>
+                    Расписание на сегодня
+                  </HeaderLink>
+                  <HeaderLink>
+                    Создать мероприятие
+                  </HeaderLink>
+                </LinksBox>}
+            </HeadbarSide>
+            {true && <HeadbarSide>
+              <LoggedName>Алена Моисеева</LoggedName>
+              <Ava>
+                <div style={{borderRadius: '100%', backgroundColor: 'red', width: '50px', height: '50px'}}/>
+              </Ava>
+            </HeadbarSide>}
+
+        </HeaderLine>
+    );
 }
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <Provider store={store}>
-//       <BrowserRouter>
-//         {/*<App />*/}
-//         <img src={logo} className="App-logo" alt="logo" />
-//       </BrowserRouter>
-//     </Provider>
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
 
-
-
-export default App;
+export default Header;
