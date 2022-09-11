@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from 'nanoid'
@@ -109,6 +109,7 @@ const fakeData: cardData[] = [
 
 
 function Card({data}: any) {
+
     console.log(data)
     return (
         <CardWrapper style={{display: 'flex'}}>
@@ -133,6 +134,8 @@ function Card({data}: any) {
 }
 
 function Calendar() {
+
+    useEffect()
     return (
         <Flex>
             <Column style={{width: '300px'}}>
