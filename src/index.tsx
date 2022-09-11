@@ -27,7 +27,6 @@ root.render(
                         <Route path="/create_ev/*" element={<CreateEvent/>}/>
                         <Route path="/login/*" element={<Login/>}/>
                     </Routes>
-                    <CreateEvent/>
                 </div>
             </BrowserRouter>
         </Provider>

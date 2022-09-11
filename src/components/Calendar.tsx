@@ -51,9 +51,9 @@ interface cardData {
     like: boolean
 }
 
-const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
-const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
-const other: string[] = ['Участвую', 'Ограничение по количеству']
+export const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
+export const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
+export const other: string[] = ['Участвую', 'Ограничение по количеству']
 
 const fakeData: cardData[] = [
     {
@@ -172,7 +172,6 @@ function Calendar() {
             </Column>
             <Column style={{width: '40%'}}>
                 {fakeData.map(item => {
-                    // @ts-ignore
                     return <Card key={nanoid()} data={item}/>
                 })}
 

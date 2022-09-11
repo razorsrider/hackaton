@@ -78,7 +78,16 @@ const SubmitButton = styled.button`
   width: 110px;
   color: white;
   font-weight: 700;
+  cursor: pointer;
 `
+
+export function Button({text}: any) {
+    return (
+        <SubmitButton>
+            {text}
+        </SubmitButton>
+    )
+}
 
 
 function Header() {
@@ -95,7 +104,7 @@ function Header() {
                     <InputField type={"password"}/>
                 </InputBox>
                 <FlexCont style={{justifyContent: 'end'}}>
-                    <SubmitButton type={"submit"}>Войти</SubmitButton>
+                    <Button type={"submit"} text={'Войти'}/>
                 </FlexCont>
             </form>
         </HeaderLine>

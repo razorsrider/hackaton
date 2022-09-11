@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
+import {nanoid} from "nanoid";
+import {cities} from "./Calendar";
+import {Button} from "./Login";
 
 const headerHeight = '80px';
 const headerLinkTextSize = '24px';
@@ -15,30 +18,8 @@ const HeaderLine = styled.div`
   // border-bottom: 1px solid grey;
 `
 
-const TitleLogo = styled.div`
-  color: ${colors.blue};
-  margin: 14px 80px 0 20px;
-  cursor: default;
-`
-
-const LinksBox = styled.div`
+const Flex = styled.div`
   display: flex;
-`
-
-
-const HeaderLink = styled.div<{ active?: boolean }>`
-  color: ${({active}) => active ? 'black' : colors.headerLinkInactive};
-  line-height: ${headerHeight};
-  font-size: ${headerLinkTextSize};
-  margin-right: 50px;
-  cursor: pointer;
-}
-`
-
-
-const LoggedName = styled.b`
-  line-height: ${headerHeight}; 
-  margin-right: 20px;
 `
 
 const FlexCont = styled.div`
@@ -48,6 +29,7 @@ const FlexCont = styled.div`
 const FieldsName = styled(FlexCont)`
     color: grey;
     font-size: 12px;
+    margin-bottom: 5px;
 `
 
 const Title = styled.b`
@@ -92,11 +74,14 @@ const SubmitButton = styled.button`
   font-weight: 700;
 `
 
+const monthesDay = Array.from(Array(32).keys())
+monthesDay.shift()
+
+const monthes = ['Январь', "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+const years = [2022, 2023, 2024, 2025, 2026]
+console.log(years)
 
 function CreateEvent() {
-
-
-
     return (
         <HeaderLine>
             <form>
@@ -111,25 +96,58 @@ function CreateEvent() {
                 </InputBox>
                 <InputBox>
                     <FieldsName>День проведения мероприятия</FieldsName>
-                    <Select name="cars" id="cars">
-                        {}
-                        <option value="volvo">Volvo</option>
-                        <option value="saab">Saab</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                    <Flex>
+                        <Select name="days" id="days">
+                            {monthesDay.map((value: any) => {
+                                return <option key={nanoid()}>{value}</option>
+                            })}
+                        </Select>
+                        <Select name="months" id="months" style={{margin: '0 40px 0 40px'}}>
+                            {monthes.map((value: any) => {
+                                return <option key={nanoid()}>{value}</option>
+                            })}
+                        </Select>
+                        <Select name="years" id="years">
+                            {years.map((value: any) => {
+                                return <option key={nanoid()}>{value}</option>
+                            })}
+                        </Select>
+                    </Flex>
+                </InputBox>
+                <InputBox>
+                    <FieldsName>Время проведения мероприятия</FieldsName>
+                    <InputField type={"text"}/>
+                </InputBox>
+                <InputBox>
+                    <FieldsName>Город</FieldsName>
+                    <Select name="cities" id="cities" style={{width: '350px'}}>
+                        {cities.map((value: any) => {
+                            return <option key={nanoid()}>{value}</option>
+                        })}
                     </Select>
                 </InputBox>
-                {/*<InputBox>*/}
-                {/*    <FieldsName>Пароль</FieldsName>*/}
-                {/*    <InputField type={"password"}/>*/}
-                {/*</InputBox>*/}
-                {/*<FlexCont style={{justifyContent: 'end'}}>*/}
-                {/*    <SubmitButton type={"submit"}>Войти</SubmitButton>*/}
-                {/*</FlexCont>*/}
+                <InputBox>
+                    <FieldsName>Отдел</FieldsName>
+                    <Select name="cities" id="cities" style={{width: '350px'}}>
+                        {cities.map((value: any) => {
+                            return <option key={nanoid()}>{value}</option>
+                        })}
+                    </Select>
+                </InputBox>
+                <InputBox>
+                    <FieldsName>Место проведения</FieldsName>
+                    <InputField type={"text"}/>
+                </InputBox>
+                <InputBox>
+                    <FieldsName>Количество человек(необязательное поле)</FieldsName>
+                    <InputField type={"number"}/>
+                </InputBox>
+                <FlexCont style={{justifyContent: 'end'}}>
+                    <Button type={"submit"} text={'Создать'}/>
+                </FlexCont>
             </form>
         </HeaderLine>
     );
 }
-
 
 export default CreateEvent;

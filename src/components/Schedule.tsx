@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from 'nanoid'
+import {cities, directions, other} from "./Calendar";
 
 
 const Flex = styled.div`
@@ -66,9 +67,9 @@ interface cardData {
     like: boolean
 }
 
-const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
-const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
-const other: string[] = ['Участвую', 'Ограничение по количеству']
+// const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
+// const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
+// const other: string[] = ['Участвую', 'Ограничение по количеству']
 
 const fakeData: cardData[] = [
     {
@@ -188,7 +189,6 @@ function Schedule() {
             <Flex style={{width: '100%', justifyContent: 'center'}}>
                 <Column style={{width: '700px'}}>
                     {fakeData.map(item => {
-                        // @ts-ignore
                         return <Card key={nanoid()} data={item}/>
                     })}
                 </Column>
