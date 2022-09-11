@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import {colors} from '../../styles/variables'
 import { Like } from '../Like'
+// @ts-ignore
 import picnic from "./picnic.jpg"
 
 const Flex = styled.div`
