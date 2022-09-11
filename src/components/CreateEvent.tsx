@@ -11,7 +11,7 @@ const HeaderLine = styled.div`
   justify-content: center;
   height: 85vh;
   align-items: center;
-  // height: ${headerHeight}; 
+  // height: ${headerHeight};
   // border-bottom: 1px solid grey;
 `
 
@@ -37,7 +37,7 @@ const HeaderLink = styled.div<{ active?: boolean }>`
 
 
 const LoggedName = styled.b`
-  line-height: ${headerHeight}; 
+  line-height: ${headerHeight};
   margin-right: 20px;
 `
 
@@ -94,9 +94,6 @@ const SubmitButton = styled.button`
 
 
 function CreateEvent() {
-
-
-
     return (
         <HeaderLine>
             <form>

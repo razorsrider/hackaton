@@ -9,6 +9,7 @@ import CreateEvent from "./components/CreateEvent";
 import Calendar from "./components/Calendar";
 import Login from "./components/Login";
 import Schedule from "./components/Schedule";
+import 'react-day-picker/dist/style.css';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -27,7 +28,6 @@ root.render(
                         <Route path="/create_ev/*" element={<CreateEvent/>}/>
                         <Route path="/login/*" element={<Login/>}/>
                     </Routes>
-                    <CreateEvent/>
                 </div>
             </BrowserRouter>
         </Provider>

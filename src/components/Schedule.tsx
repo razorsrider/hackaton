@@ -1,61 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import {colors} from '../styles/variables'
-import {nanoid} from 'nanoid'
+import { colors } from '../styles/variables'
+import { Card } from './Card'
+import { nanoid } from 'nanoid'
+import {getAllParticipants, getCities, getEvents} from "../api/api";
 
 
 const Flex = styled.div`
-  display: flex;
-  // align-items: start;
+    display: flex;
+    // align-items: start;
 `
 
 const Vertical = styled(Flex)`
-  flex-direction: column;
+    flex-direction: column;
 `
 
 const RadioList = styled(Flex)`
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 `
 
 const Title = styled.b`
-  display: flex;
-  color: ${colors.blue};
-  // justify-content: center;
-  font-size: 22px;
-  margin-bottom: 20px;
+    display: flex;
+    color: ${colors.blue};
+    // justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
 `
 
 const Column = styled.div`
-  margin: 50px 0 0 30px;
-`
-
-const SubmitButton = styled.div`
-  margin-top: 20px;
-  border-radius: 30px;
-  background-color: ${colors.blue};
-  height: 50px;
-  line-height: 50px;
-  width: 110px;
-  color: white;
-  font-weight: 700;
-`
-
-
-const CardWrapper = styled.div`
-  border-bottom: 1px solid grey;
-  height: 80px;
-  padding-bottom: 10px; 
-  margin-bottom: 10px;
-`
-
-const labelSize = '10px'
-const CardColorLabel = styled.div`
-  height: ${labelSize};
-  line-height: ${labelSize};
-  border-radius: 30px;
-  padding: 5px 10px 5px 10px;
-  color: white;
-  background-color: ${({color}) => color === 'green' ? colors.green : colors.orange};
+    margin: 50px 0 0 30px;
 `
 
 interface cardData {
@@ -66,88 +39,65 @@ interface cardData {
     like: boolean
 }
 
-const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
 const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
 const other: string[] = ['Участвую', 'Ограничение по количеству']
 
-const fakeData: cardData[] = [
-    {
-        name: 'Пикник с клубом кулинарии',
-        time: '12:00 - 13:00',
-        city: 'Ульяновск',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Велопрогулка по центру',
-        time: '15:00 - 16:00',
-        city: 'Казань',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Драматический театр. Постановка Лес.',
-        time: '17:00 - 20:00',
-        city: 'ДГ',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Лазертаг',
-        time: '18:00 - 19:00',
-        city: 'Самара',
-        picURL: '',
-        like: true
-    },
-    {
-        name: 'Картинг "Форсаж"',
-        time: '19:00 - 20:00',
-        city: 'Казань',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Настолки в офисе',
-        time: '20:00 - 23:00',
-        city: 'Все города',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Кинопоказ в офисе',
-        time: '20:00 - 22:00',
-        city: 'Саранск',
-        picURL: '',
-        like: true
-    }
-]
-
-
-function Card({data}: any) {
-    // console.log(data)
-    return (
-        <CardWrapper style={{display: 'flex'}}>
-            <div>
-                <div style={{width: '120px', height: '80px', backgroundColor: 'lightgrey'}}/>
-            </div>
-            <Flex style={{justifyContent: 'space-between', width: '100%'}}>
-                <div style={{marginLeft: '20px'}}>
-                    <div>{data.name}</div>
-                    <div style={{color: colors.headerLinkInactive, marginTop: '5px'}}>
-                        {data.time}
-                        {/*12:00 - 13:00*/}
-                    </div>
-                </div>
-                <Vertical style={{justifyContent: 'space-between', alignItems: 'end'}}>
-                    <CardColorLabel color={'green'}>{data.city}</CardColorLabel>
-                    <div style={{width: '30px', height: '30px', backgroundColor: 'red'}}></div>
-                </Vertical>
-            </Flex>
-        </CardWrapper>
-    )
+interface Cities {
+    id: string
+    name: string
+}
+interface Events {
+    eventId: string
+    date: string
+    time: string
+    city: string
+    name: string
+    picURL: string
 }
 
 function Schedule() {
+    const [cities, setCities] = useState<Cities[]>([])
+    const [events, setEvents] = useState<Events[]>([])
+
+    useEffect(() => {
+        getEvents().then((data: any[]) => {
+            const arr: Events[] = []
+            data.map((e) => {
+                const parsed = e.geteventsbyfilters
+                    .replace('(', '')
+                    .replace(')', '')
+                    .replaceAll('"', '')
+                    .replaceAll('\/', '')
+                    .split(',' )
+
+                arr.push({
+                    eventId: parsed[0],
+                    date: parsed[2],
+                    time: parsed[3],
+                    city: parsed[4],
+                    name: parsed[1],
+                    picURL: parsed[9],
+                })
+
+            })
+
+            setEvents(arr)
+        })
+
+        getCities().then((data: any[]) => {
+            const arr: Cities[] = []
+            // eslint-disable-next-line array-callback-return
+            data.map((e) => {
+                const parsed = e.getcity.replace('(', '').replace(')', '').split(',' )
+                arr.push({
+                    id: parsed[0],
+                    name: parsed[1]
+                })
+            })
+            setCities(arr)
+        })
+    }, [])
+
     return (
         <Flex>
             <Column style={{width: '200px'}}>
@@ -156,8 +106,8 @@ function Schedule() {
                     <Vertical>
                         {cities.map(item => {
                             return <RadioList key={nanoid()}>
-                                <input type={"radio"} id={item}/>
-                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
+                                <input type={"radio"} id={item?.id}/>
+                                <label style={{marginLeft: '6px'}} htmlFor={item?.id}>{item?.name}</label>
                             </RadioList>
                         })}
                     </Vertical>
@@ -187,7 +137,7 @@ function Schedule() {
             </Column>
             <Flex style={{width: '100%', justifyContent: 'center'}}>
                 <Column style={{width: '700px'}}>
-                    {fakeData.map(item => {
+                    {events.map(item => {
                         // @ts-ignore
                         return <Card key={nanoid()} data={item}/>
                     })}
