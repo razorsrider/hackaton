@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useMemo, useRef} from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
+import {Link, useLocation} from "react-router-dom";
 
 const headerHeight = '80px';
 const headerLinkTextSize = '24px';
@@ -11,8 +12,9 @@ const HeaderLine = styled.div`
   justify-content: space-between;
   height: ${headerHeight}; 
   border-bottom: 1px solid grey;
+  // background-color: red;
+  // z-index: 10000;
 `
-
 
 const LinksBox = styled.div`
   display: flex;
@@ -24,7 +26,6 @@ const TitleLogo = styled.div`
   cursor: default;
   text-align: center;
 `
-
 
 const HeaderLink = styled.div<{ active?: boolean }>`
   color: ${({active}) => active ? 'black' : colors.headerLinkInactive};
@@ -49,8 +50,17 @@ const HeadbarSide = styled.div`
   display: flex;
 `
 
+const Link1 = styled(Link)`
+  text-decoration: none;
+`
 
 function Header() {
+
+    const {pathname} = useLocation()
+
+    const reg_cal = useMemo(() => /calendar/g, [])
+    const reg_sch = useMemo(() => /schedule/g, [])
+    const reg_create_ev = useMemo(() => /create_ev/g, [])
     return (
         <HeaderLine>
             <HeadbarSide>
@@ -59,15 +69,21 @@ function Header() {
                     <div style={{fontSize: '16px'}}>Все мероприятия в одном месте</div>
                 </TitleLogo>
                 {true && <LinksBox>
-                  <HeaderLink active>
-                    Календарь
-                  </HeaderLink>
-                  <HeaderLink>
-                    Расписание на сегодня
-                  </HeaderLink>
-                  <HeaderLink>
-                    Создать мероприятие
-                  </HeaderLink>
+                  <Link1 to={'/calendar'}>
+                    <HeaderLink active={!!pathname.match(reg_cal)}>
+                      Календарь
+                    </HeaderLink>
+                  </Link1>
+                  <Link1 to={'/schedule'}>
+                    <HeaderLink active={!!pathname.match(reg_sch)}>
+                      Расписание на сегодня
+                    </HeaderLink>
+                  </Link1>
+                  <Link1 to={'/create_ev'}>
+                    <HeaderLink active={!!pathname.match(reg_create_ev)}>
+                      Создать мероприятие
+                    </HeaderLink>
+                  </Link1>
                 </LinksBox>}
             </HeadbarSide>
             {true && <HeadbarSide>

@@ -102,8 +102,8 @@ function Schedule() {
                     <Title>Города</Title>
                     <Vertical>
                         {cities.map(item => {
-                            return <RadioList>
-                                <input type={"radio"} id={item} key={nanoid()}/>
+                            return <RadioList key={nanoid()}>
+                                <input type={"radio"} id={item}/>
                                 <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
                             </RadioList>
                         })}
@@ -113,8 +113,8 @@ function Schedule() {
                     <Title>Направление</Title>
                     <Vertical>
                         {directions.map(item => {
-                            return <RadioList>
-                                <input type={"checkbox"} id={item} key={nanoid()}/>
+                            return <RadioList key={nanoid()}>
+                                <input type={"checkbox"} id={item}/>
                                 <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
                             </RadioList>
                         })}
@@ -124,8 +124,8 @@ function Schedule() {
                     <Title>Прочее</Title>
                     <Vertical>
                         {other.map(item => {
-                            return <RadioList>
-                                <input type={"checkbox"} id={item} key={nanoid()}/>
+                            return <RadioList key={nanoid()}>
+                                <input type={"checkbox"} id={item}/>
                                 <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
                             </RadioList>
                         })}
@@ -136,7 +136,7 @@ function Schedule() {
                 <Column style={{width: '700px'}}>
                     {fakeData.map(item => {
                         // @ts-ignore
-                        return <Card data={item}/>
+                        return <Card key={nanoid()} data={item}/>
                     })}
                 </Column>
             </Flex>

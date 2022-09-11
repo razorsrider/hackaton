@@ -1,35 +1,87 @@
 import React from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
-import {nanoid} from 'nanoid'
+
+const headerHeight = '80px';
+const headerLinkTextSize = '24px';
 
 
-const Flex = styled.div`
+const HeaderLine = styled.div`
   display: flex;
-  // align-items: start;
+  justify-content: center;
+  height: 85vh;
+  align-items: center;
+  // height: ${headerHeight};
+  // border-bottom: 1px solid grey;
 `
 
-const Vertical = styled(Flex)`
-  flex-direction: column;
+const TitleLogo = styled.div`
+  color: ${colors.blue};
+  margin: 14px 80px 0 20px;
+  cursor: default;
 `
 
-const RadioList = styled(Flex)`
-  margin-bottom: 10px;
+const LinksBox = styled.div`
+  display: flex;
+`
+
+
+const HeaderLink = styled.div<{ active?: boolean }>`
+  color: ${({active}) => active ? 'black' : colors.headerLinkInactive};
+  line-height: ${headerHeight};
+  font-size: ${headerLinkTextSize};
+  margin-right: 50px;
+  cursor: pointer;
+}
+`
+
+
+const LoggedName = styled.b`
+  line-height: ${headerHeight};
+  margin-right: 20px;
+`
+
+const FlexCont = styled.div`
+  display: flex;
+`
+
+const FieldsName = styled(FlexCont)`
+    color: grey;
+    font-size: 12px;
 `
 
 const Title = styled.b`
   display: flex;
   color: ${colors.blue};
-  // justify-content: center;
+  justify-content: center;
   font-size: 22px;
+  margin-bottom: 40px;
+`
+
+const InputBox = styled.div`
+  // width: 350px;
   margin-bottom: 20px;
 `
 
-const Column = styled.div`
-  margin: 50px 0 0 30px;
+const InputField = styled.input`
+  width: 350px;
+  border: 1px solid lightgrey;
 `
 
-const SubmitButton = styled.div`
+
+const Textarea = styled.textarea`
+  width: 350px;
+  border: 1px solid lightgrey;
+`
+
+
+const Select = styled.select`
+  // width: 350px;
+  border: 1px solid lightgrey;
+`
+
+
+const SubmitButton = styled.button`
   margin-top: 20px;
   border-radius: 30px;
   background-color: ${colors.blue};
@@ -41,160 +93,40 @@ const SubmitButton = styled.div`
 `
 
 
-const CardWrapper = styled.div`
-  border-bottom: 1px solid grey;
-  height: 80px;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-`
-
-const labelSize = '10px'
-const CardColorLabel = styled.div`
-  height: ${labelSize};
-  line-height: ${labelSize};
-  border-radius: 30px;
-  padding: 5px 10px 5px 10px;
-  color: white;
-  background-color: ${({color}) => color === 'green' ? colors.green : colors.orange};
-`
-
-interface cardData {
-    name: string,
-    time: string,
-    city: string,
-    picURL: string,
-    like: boolean
-}
-
-const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
-const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
-const other: string[] = ['Участвую', 'Ограничение по количеству']
-
-const fakeData: cardData[] = [
-    {
-        name: 'Пикник с клубом кулинарии',
-        time: '12:00 - 13:00',
-        city: 'Ульяновск',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Велопрогулка по центру',
-        time: '15:00 - 16:00',
-        city: 'Казань',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Драматический театр. Постановка Лес.',
-        time: '17:00 - 20:00',
-        city: 'ДГ',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Лазертаг',
-        time: '18:00 - 19:00',
-        city: 'Самара',
-        picURL: '',
-        like: true
-    },
-    {
-        name: 'Картинг "Форсаж"',
-        time: '19:00 - 20:00',
-        city: 'Казань',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Настолки в офисе',
-        time: '20:00 - 23:00',
-        city: 'Все города',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Кинопоказ в офисе',
-        time: '20:00 - 22:00',
-        city: 'Саранск',
-        picURL: '',
-        like: true
-    }
-]
-
-
-function Card({data}: any) {
+function CreateEvent() {
     return (
-        <CardWrapper style={{display: 'flex'}}>
-            <div>
-                <div style={{width: '120px', height: '80px', backgroundColor: 'lightgrey'}}/>
-            </div>
-            <Flex style={{justifyContent: 'space-between', width: '100%'}}>
-                <div style={{marginLeft: '20px'}}>
-                    <div>{data.name}</div>
-                    <div style={{color: colors.headerLinkInactive, marginTop: '5px'}}>
-                        {data.time}
-                        {/*12:00 - 13:00*/}
-                    </div>
-                </div>
-                <Vertical style={{justifyContent: 'space-between', alignItems: 'end'}}>
-                    <CardColorLabel color={'green'}>{data.city}</CardColorLabel>
-                    <div style={{width: '30px', height: '30px', backgroundColor: 'red'}}></div>
-                </Vertical>
-            </Flex>
-        </CardWrapper>
-    )
-}
-
-function Schedule() {
-    return (
-        <Flex>
-            <Column style={{width: '200px'}}>
-                <Vertical>
-                    <Title>Города</Title>
-                    <Vertical>
-                        {cities.map(item => {
-                            return <RadioList>
-                                <input type={"radio"} id={item} key={nanoid()}/>
-                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
-                            </RadioList>
-                        })}
-                    </Vertical>
-                </Vertical>
-                <Vertical style={{marginTop: '10px'}}>
-                    <Title>Направление</Title>
-                    <Vertical>
-                        {directions.map(item => {
-                            return <RadioList>
-                                <input type={"checkbox"} id={item} key={nanoid()}/>
-                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
-                            </RadioList>
-                        })}
-                    </Vertical>
-                </Vertical>
-                <Vertical style={{marginTop: '10px'}}>
-                    <Title>Прочее</Title>
-                    <Vertical>
-                        {other.map(item => {
-                            return <RadioList>
-                                <input type={"checkbox"} id={item} key={nanoid()}/>
-                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
-                            </RadioList>
-                        })}
-                    </Vertical>
-                </Vertical>
-            </Column>
-            <Flex style={{width: '100%', justifyContent: 'center'}}>
-                <Column style={{width: '700px'}}>
-                    {fakeData.map(item => {
-                        // @ts-ignore
-                        return <Card data={item}/>
-                    })}
-                </Column>
-            </Flex>
-        </Flex>
+        <HeaderLine>
+            <form>
+                <Title>Создать мероприятие</Title>
+                <InputBox>
+                    <FieldsName>Название мероприятия</FieldsName>
+                    <InputField type={"text"}/>
+                </InputBox>
+                <InputBox>
+                    <FieldsName>Описание мероприятия</FieldsName>
+                    <Textarea/>
+                </InputBox>
+                <InputBox>
+                    <FieldsName>День проведения мероприятия</FieldsName>
+                    <Select name="cars" id="cars">
+                        {}
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="opel">Opel</option>
+                        <option value="audi">Audi</option>
+                    </Select>
+                </InputBox>
+                {/*<InputBox>*/}
+                {/*    <FieldsName>Пароль</FieldsName>*/}
+                {/*    <InputField type={"password"}/>*/}
+                {/*</InputBox>*/}
+                {/*<FlexCont style={{justifyContent: 'end'}}>*/}
+                {/*    <SubmitButton type={"submit"}>Войти</SubmitButton>*/}
+                {/*</FlexCont>*/}
+            </form>
+        </HeaderLine>
     );
 }
 
 
-export default Schedule;
+export default CreateEvent;
