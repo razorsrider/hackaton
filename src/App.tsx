@@ -9,17 +9,22 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import Calendar from "./components/Calendar";
 import Schedule from "./components/Schedule";
+import CreateEvent from "./components/CreateEvent";
 
 
 function App() {
     return (
         <div className="App">
-            <header>
-                <Header/>
-                {/*<Login/>*/}
-                {/*<Calendar/>*/}
-                <Schedule/>
-            </header>
+
+            <Header/>
+
+
+
+            {/*<Login/>*/}
+            {/*<Calendar/>*/}
+            {/*<Schedule/>*/}
+            <CreateEvent/>
+
         </div>
     );
 }

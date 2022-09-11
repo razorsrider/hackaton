@@ -1,7 +1,8 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from 'nanoid'
+import {getAllParticipants, getCities, getEvents} from "../api/api";
 
 const Flex = styled.div`
   display: flex;
@@ -51,7 +52,7 @@ interface cardData {
     like: boolean
 }
 
-const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
+// const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
 const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
 const other: string[] = ['Участвую', 'Ограничение по количеству']
 
@@ -109,8 +110,6 @@ const fakeData: cardData[] = [
 
 
 function Card({data}: any) {
-
-    console.log(data)
     return (
         <CardWrapper style={{display: 'flex'}}>
             <div>
@@ -134,18 +133,35 @@ function Card({data}: any) {
 }
 
 function Calendar() {
-
-    useEffect()
+    const [cities, setCities] = useState([])
+    // const [directions, setDirections] = []
+    // const [events, setEvents] = []
+    // alert(cities)
+    useEffect(() => {
+        // getAllParticipants().then((e) => console.log(e))
+        getEvents().then((e) => console.log(e))
+        getCities().then((data) => {
+            const arr = []
+            data.map(e => {
+                const parsed = e.getcity.replace('(', '').replace(')', '').split(',' )
+                arr.push({
+                    id: parsed[0],
+                    name: parsed[1]
+                })
+            })
+            setCities(arr)
+        })
+    }, [])
     return (
         <Flex>
             <Column style={{width: '300px'}}>
                 <Vertical>
                     <Title>Города</Title>
                     <Vertical>
-                        {cities.map(item => {
-                            return <RadioList>
-                                <input type={"radio"} id={item} key={nanoid()}/>
-                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
+                        {cities?.map(item => {
+                            return <RadioList key={nanoid()}>
+                                <input type={"radio"} id={item}/>
+                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item.name}</label>
                             </RadioList>
                         })}
                     </Vertical>
@@ -154,8 +170,8 @@ function Calendar() {
                     <Title>Направление</Title>
                     <Vertical>
                         {directions.map(item => {
-                            return <RadioList>
-                                <input type={"checkbox"} id={item} key={nanoid()}/>
+                            return <RadioList key={nanoid()}>
+                                <input type={"checkbox"} id={item}/>
                                 <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
                             </RadioList>
                         })}
@@ -167,8 +183,8 @@ function Calendar() {
                     <Title>Прочее</Title>
                     <Vertical>
                         {other.map(item => {
-                            return <RadioList>
-                                <input type={"checkbox"} id={item} key={nanoid()}/>
+                            return <RadioList key={nanoid()}>
+                                <input type={"checkbox"} id={item}/>
                                 <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
                             </RadioList>
                         })}
@@ -178,7 +194,7 @@ function Calendar() {
             <Column style={{width: '40%'}}>
                 {fakeData.map(item => {
                     // @ts-ignore
-                    return <Card data={item}/>
+                    return <Card key={nanoid()} data={item}/>
                 })}
 
             </Column>
