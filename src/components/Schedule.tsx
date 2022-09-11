@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { colors } from '../styles/variables'
 import { Card } from './Card'
 import { nanoid } from 'nanoid'
+import {getAllParticipants, getCities, getEvents} from "../api/api";
 
 
 const Flex = styled.div`
@@ -38,63 +39,65 @@ interface cardData {
     like: boolean
 }
 
-const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
 const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
 const other: string[] = ['Участвую', 'Ограничение по количеству']
 
-const fakeData: cardData[] = [
-    {
-        name: 'Пикник с клубом кулинарии',
-        time: '12:00 - 13:00',
-        city: 'Ульяновск',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Велопрогулка по центру',
-        time: '15:00 - 16:00',
-        city: 'Казань',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Драматический театр. Постановка Лес.',
-        time: '17:00 - 20:00',
-        city: 'ДГ',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Лазертаг',
-        time: '18:00 - 19:00',
-        city: 'Самара',
-        picURL: '',
-        like: true
-    },
-    {
-        name: 'Картинг "Форсаж"',
-        time: '19:00 - 20:00',
-        city: 'Казань',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Настолки в офисе',
-        time: '20:00 - 23:00',
-        city: 'Все города',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Кинопоказ в офисе',
-        time: '20:00 - 22:00',
-        city: 'Саранск',
-        picURL: '',
-        like: true
-    }
-]
+interface Cities {
+    id: string
+    name: string
+}
+interface Events {
+    eventId: string
+    date: string
+    time: string
+    city: string
+    name: string
+    picURL: string
+}
 
 function Schedule() {
+    const [cities, setCities] = useState<Cities[]>([])
+    const [events, setEvents] = useState<Events[]>([])
+
+    useEffect(() => {
+        getEvents().then((data: any[]) => {
+            const arr: Events[] = []
+            data.map((e) => {
+                const parsed = e.geteventsbyfilters
+                    .replace('(', '')
+                    .replace(')', '')
+                    .replaceAll('"', '')
+                    .replaceAll('\/', '')
+                    .split(',' )
+
+                arr.push({
+                    eventId: parsed[0],
+                    date: parsed[2],
+                    time: parsed[3],
+                    city: parsed[4],
+                    name: parsed[1],
+                    picURL: parsed[9],
+                })
+
+            })
+
+            setEvents(arr)
+        })
+
+        getCities().then((data: any[]) => {
+            const arr: Cities[] = []
+            // eslint-disable-next-line array-callback-return
+            data.map((e) => {
+                const parsed = e.getcity.replace('(', '').replace(')', '').split(',' )
+                arr.push({
+                    id: parsed[0],
+                    name: parsed[1]
+                })
+            })
+            setCities(arr)
+        })
+    }, [])
+
     return (
         <Flex>
             <Column style={{width: '200px'}}>
@@ -103,8 +106,8 @@ function Schedule() {
                     <Vertical>
                         {cities.map(item => {
                             return <RadioList key={nanoid()}>
-                                <input type={"radio"} id={item}/>
-                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
+                                <input type={"radio"} id={item?.id}/>
+                                <label style={{marginLeft: '6px'}} htmlFor={item?.id}>{item?.name}</label>
                             </RadioList>
                         })}
                     </Vertical>
@@ -134,7 +137,7 @@ function Schedule() {
             </Column>
             <Flex style={{width: '100%', justifyContent: 'center'}}>
                 <Column style={{width: '700px'}}>
-                    {fakeData.map(item => {
+                    {events.map(item => {
                         // @ts-ignore
                         return <Card key={nanoid()} data={item}/>
                     })}

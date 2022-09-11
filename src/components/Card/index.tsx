@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import {colors} from '../../styles/variables'
 import { Like } from '../Like'
+import picnic from "./picnic.jpg"
 
 const Flex = styled.div`
   display: flex;
@@ -30,7 +31,9 @@ const CardColorLabel = styled.div`
 export const Card = ({data}: any) => (
     <CardWrapper style={{display: 'flex'}}>
         <div>
-            <div style={{width: '120px', height: '80px', backgroundColor: 'lightgrey'}}/>
+          <div style={{width: '120px', height: '80px', backgroundImage: 'data', overflow: 'hidden',}}>
+            <img src={data.picURL ? 'https://simbir-events.herokuapp.com/upload/' + data.picURL : picnic} alt=""/>
+          </div>
         </div>
         <Flex style={{justifyContent: 'space-between', width: '100%'}}>
             <div style={{marginLeft: '20px'}}>
