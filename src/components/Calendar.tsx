@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from 'nanoid'
+import {getAllParticipants, getCities, getEvents} from "../api/api";
 
 const Flex = styled.div`
   display: flex;
@@ -51,7 +52,7 @@ interface cardData {
     like: boolean
 }
 
-export const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
+// export const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
 export const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
 export const other: string[] = ['Участвую', 'Ограничение по количеству']
 
@@ -112,7 +113,9 @@ function Card({data}: any) {
     return (
         <CardWrapper style={{display: 'flex'}}>
             <div>
-                <div style={{width: '120px', height: '80px', backgroundColor: 'lightgrey'}}/>
+                <div style={{width: '120px', height: '80px', backgroundImage: 'data'}}>
+                    <img src={'https://simbir-events.herokuapp.com/upload/' + data.picURL} alt=""/>
+                </div>
             </div>
             <Flex style={{justifyContent: 'space-between', width: '100%'}}>
                 <div style={{marginLeft: '20px'}}>
@@ -131,16 +134,61 @@ function Card({data}: any) {
 }
 
 function Calendar() {
+    const [cities, setCities] = useState([])
+    // const [directions, setDirections] = []
+    const [events, setEvents] = useState([])
+    // alert(cities)
+    useEffect(() => {
+        // getAllParticipants().then((e) => console.log(e))
+
+        getEvents().then(data => {
+            const arr = []
+            data.map(e => {
+                const parsed = e.geteventsbyfilters
+                    .replace('(', '')
+                    .replace(')', '')
+                    .replaceAll('"', '')
+                    .replaceAll('\/', '')
+                    .split(',' )
+
+                arr.push({
+                    eventId: parsed[0],
+                    date: parsed[2],
+                    time: parsed[3],
+                    city: parsed[4],
+                    name: parsed[1],
+                    picURL: parsed[9],
+                })
+
+            })
+            console.log(arr)
+
+            setEvents(arr)
+        })
+
+        console.log(events)
+        getCities().then((data) => {
+            const arr = []
+            data.map(e => {
+                const parsed = e.getcity.replace('(', '').replace(')', '').split(',' )
+                arr.push({
+                    id: parsed[0],
+                    name: parsed[1]
+                })
+            })
+            setCities(arr)
+        })
+    }, [])
     return (
         <Flex>
             <Column style={{width: '300px'}}>
                 <Vertical>
                     <Title>Города</Title>
                     <Vertical>
-                        {cities.map(item => {
+                        {cities?.map(item => {
                             return <RadioList key={nanoid()}>
                                 <input type={"radio"} id={item}/>
-                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
+                                <label style={{marginLeft: '6px'}} htmlFor={item}>{item.name}</label>
                             </RadioList>
                         })}
                     </Vertical>
@@ -171,7 +219,7 @@ function Calendar() {
                 </Vertical>
             </Column>
             <Column style={{width: '40%'}}>
-                {fakeData.map(item => {
+                {events.map(item => {
                     return <Card key={nanoid()} data={item}/>
                 })}
 
