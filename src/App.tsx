@@ -8,6 +8,7 @@ import {BrowserRouter} from 'react-router-dom';
 import Header from "./components/Header";
 import Login from "./components/Login";
 import Calendar from "./components/Calendar";
+import Schedule from "./components/Schedule";
 
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
             <header>
                 <Header/>
                 {/*<Login/>*/}
-                <Calendar/>
+                {/*<Calendar/>*/}
+                <Schedule/>
             </header>
         </div>
     );

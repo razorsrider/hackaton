@@ -3,8 +3,10 @@ import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from 'nanoid'
 
+
 const Flex = styled.div`
   display: flex;
+  // align-items: start;
 `
 
 const Vertical = styled(Flex)`
@@ -18,6 +20,7 @@ const RadioList = styled(Flex)`
 const Title = styled.b`
   display: flex;
   color: ${colors.blue};
+  // justify-content: center;
   font-size: 22px;
   margin-bottom: 20px;
 `
@@ -25,6 +28,18 @@ const Title = styled.b`
 const Column = styled.div`
   margin: 50px 0 0 30px;
 `
+
+const SubmitButton = styled.div`
+  margin-top: 20px;
+  border-radius: 30px;
+  background-color: ${colors.blue};
+  height: 50px;
+  line-height: 50px;
+  width: 110px;
+  color: white;
+  font-weight: 700;
+`
+
 
 const CardWrapper = styled.div`
   border-bottom: 1px solid grey;
@@ -132,10 +147,10 @@ function Card({data}: any) {
     )
 }
 
-function Calendar() {
+function Schedule() {
     return (
         <Flex>
-            <Column style={{width: '300px'}}>
+            <Column style={{width: '200px'}}>
                 <Vertical>
                     <Title>Города</Title>
                     <Vertical>
@@ -158,8 +173,6 @@ function Calendar() {
                         })}
                     </Vertical>
                 </Vertical>
-            </Column>
-            <Column style={{width: '350px'}}>
                 <Vertical style={{marginTop: '10px'}}>
                     <Title>Прочее</Title>
                     <Vertical>
@@ -172,16 +185,17 @@ function Calendar() {
                     </Vertical>
                 </Vertical>
             </Column>
-            <Column style={{width: '40%'}}>
-                {fakeData.map(item => {
-                    // @ts-ignore
-                    return <Card data={item}/>
-                })}
-
-            </Column>
+            <Flex style={{width: '100%', justifyContent: 'center'}}>
+                <Column style={{width: '700px'}}>
+                    {fakeData.map(item => {
+                        // @ts-ignore
+                        return <Card data={item}/>
+                    })}
+                </Column>
+            </Flex>
         </Flex>
     );
 }
 
 
-export default Calendar;
+export default Schedule;
