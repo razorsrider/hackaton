@@ -109,7 +109,6 @@ const fakeData: cardData[] = [
 
 
 function Card({data}: any) {
-    // console.log(data)
     return (
         <CardWrapper style={{display: 'flex'}}>
             <div>
@@ -120,7 +119,6 @@ function Card({data}: any) {
                     <div>{data.name}</div>
                     <div style={{color: colors.headerLinkInactive, marginTop: '5px'}}>
                         {data.time}
-                        {/*12:00 - 13:00*/}
                     </div>
                 </div>
                 <Vertical style={{justifyContent: 'space-between', alignItems: 'end'}}>

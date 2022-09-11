@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useMemo, useRef} from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {Link, useLocation} from "react-router-dom";
@@ -12,8 +12,9 @@ const HeaderLine = styled.div`
   justify-content: space-between;
   height: ${headerHeight}; 
   border-bottom: 1px solid grey;
+  // background-color: red;
+  // z-index: 10000;
 `
-
 
 const LinksBox = styled.div`
   display: flex;
@@ -25,7 +26,6 @@ const TitleLogo = styled.div`
   cursor: default;
   text-align: center;
 `
-
 
 const HeaderLink = styled.div<{ active?: boolean }>`
   color: ${({active}) => active ? 'black' : colors.headerLinkInactive};
@@ -58,9 +58,9 @@ function Header() {
 
     const {pathname} = useLocation()
 
-    const reg_cal = /calendar/g
-    const reg_sch = /schedule/g
-    const reg_create_ev = /create_ev/g
+    const reg_cal = useMemo(() => /calendar/g, [])
+    const reg_sch = useMemo(() => /schedule/g, [])
+    const reg_create_ev = useMemo(() => /create_ev/g, [])
     return (
         <HeaderLine>
             <HeadbarSide>
