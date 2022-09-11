@@ -17,7 +17,7 @@ export const getCities = () => instance.get('getCity')
         return response.data
     });
 
-export const getEvents = () => instance.get('getEvents/?userId=1&date="2022-09-10"&cityId=1&directionId=1&participation=1')
+export const getEvents = () => instance.get('getEvents/?userId=1&date="2022-09-11"&cityId=1')
     .then(function (response) {
         return response.data
     });

@@ -113,7 +113,9 @@ function Card({data}: any) {
     return (
         <CardWrapper style={{display: 'flex'}}>
             <div>
-                <div style={{width: '120px', height: '80px', backgroundColor: 'lightgrey'}}/>
+                <div style={{width: '120px', height: '80px', backgroundImage: 'data'}}>
+                    <img src={'https://simbir-events.herokuapp.com/upload/' + data.picURL} alt=""/>
+                </div>
             </div>
             <Flex style={{justifyContent: 'space-between', width: '100%'}}>
                 <div style={{marginLeft: '20px'}}>
@@ -135,11 +137,37 @@ function Card({data}: any) {
 function Calendar() {
     const [cities, setCities] = useState([])
     // const [directions, setDirections] = []
-    // const [events, setEvents] = []
+    const [events, setEvents] = useState([])
     // alert(cities)
     useEffect(() => {
         // getAllParticipants().then((e) => console.log(e))
-        getEvents().then((e) => console.log(e))
+
+        getEvents().then(data => {
+            const arr = []
+            data.map(e => {
+                const parsed = e.geteventsbyfilters
+                    .replace('(', '')
+                    .replace(')', '')
+                    .replaceAll('"', '')
+                    .replaceAll('\/', '')
+                    .split(',' )
+
+                arr.push({
+                    eventId: parsed[0],
+                    date: parsed[2],
+                    time: parsed[3],
+                    city: parsed[4],
+                    name: parsed[1],
+                    picURL: parsed[9],
+                })
+
+            })
+            console.log(arr)
+
+            setEvents(arr)
+        })
+
+        console.log(events)
         getCities().then((data) => {
             const arr = []
             data.map(e => {
@@ -192,7 +220,7 @@ function Calendar() {
                 </Vertical>
             </Column>
             <Column style={{width: '40%'}}>
-                {fakeData.map(item => {
+                {events.map(item => {
                     // @ts-ignore
                     return <Card key={nanoid()} data={item}/>
                 })}
