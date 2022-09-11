@@ -3,55 +3,30 @@ import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from 'nanoid'
 import { CalendarSelector } from './CalendarSelector'
-import { Like } from './Like'
+import { Card } from './Card'
 
 const Flex = styled.div`
-  display: flex;
+    display: flex;
 `
 
 const Vertical = styled(Flex)`
-  flex-direction: column;
+    flex-direction: column;
 `
 
 const RadioList = styled(Flex)`
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 `
 
 const Title = styled.b`
-  display: flex;
-  color: ${colors.blue};
-  font-size: 22px;
-  margin-bottom: 20px;
+    display: flex;
+    color: ${colors.blue};
+    font-size: 22px;
+    margin-bottom: 20px;
 `
 
 const Column = styled.div`
-  margin: 50px 0 0 30px;
+    margin: 50px 0 0 30px;
 `
-
-const CardWrapper = styled.div`
-  border-bottom: 1px solid grey;
-  height: 80px;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-`
-
-const labelSize = '10px'
-const CardColorLabel = styled.div`
-  height: ${labelSize};
-  line-height: ${labelSize};
-  border-radius: 30px;
-  padding: 5px 10px 5px 10px;
-  color: white;
-  background-color: ${({color}) => color === 'green' ? colors.green : colors.orange};
-`
-
-interface cardData {
-    name: string,
-    time: string,
-    city: string,
-    picURL: string,
-    like: boolean
-}
 
 const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Самара', 'Саранск', 'Димитровград', 'Краснодар', 'Удаленка']
 const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
@@ -178,28 +153,6 @@ const data = [
         ],
     },
 ]
-
-function Card({data}: any) {
-    return (
-        <CardWrapper style={{display: 'flex'}}>
-            <div>
-                <div style={{width: '120px', height: '80px', backgroundColor: 'lightgrey'}}/>
-            </div>
-            <Flex style={{justifyContent: 'space-between', width: '100%'}}>
-                <div style={{marginLeft: '20px'}}>
-                    <div>{data.name}</div>
-                    <div style={{color: colors.headerLinkInactive, marginTop: '5px'}}>
-                        {data.time}
-                    </div>
-                </div>
-                <Vertical style={{justifyContent: 'space-between', alignItems: 'end'}}>
-                    <CardColorLabel color={'green'}>{data.city}</CardColorLabel>
-                    <Like isLike={data.like} />
-                </Vertical>
-            </Flex>
-        </CardWrapper>
-    )
-}
 
 function Calendar() {
     const [selectedDay, setSelectedDay] = useState<Date>(new Date());

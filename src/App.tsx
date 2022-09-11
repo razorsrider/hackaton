@@ -17,8 +17,8 @@ function App() {
             <header>
                 <Header/>
                 {/*<Login/>*/}
-                <Calendar/>
-                {/* <Schedule/> */}
+                {/* <Calendar/> */}
+                <Schedule/>
             </header>
         </div>
     );

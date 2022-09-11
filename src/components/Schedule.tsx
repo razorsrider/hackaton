@@ -1,61 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
-import {colors} from '../styles/variables'
-import {nanoid} from 'nanoid'
+import { colors } from '../styles/variables'
+import { Card } from './Card'
+import { nanoid } from 'nanoid'
 
 
 const Flex = styled.div`
-  display: flex;
-  // align-items: start;
+    display: flex;
+    // align-items: start;
 `
 
 const Vertical = styled(Flex)`
-  flex-direction: column;
+    flex-direction: column;
 `
 
 const RadioList = styled(Flex)`
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 `
 
 const Title = styled.b`
-  display: flex;
-  color: ${colors.blue};
-  // justify-content: center;
-  font-size: 22px;
-  margin-bottom: 20px;
+    display: flex;
+    color: ${colors.blue};
+    // justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
 `
 
 const Column = styled.div`
-  margin: 50px 0 0 30px;
-`
-
-const SubmitButton = styled.div`
-  margin-top: 20px;
-  border-radius: 30px;
-  background-color: ${colors.blue};
-  height: 50px;
-  line-height: 50px;
-  width: 110px;
-  color: white;
-  font-weight: 700;
-`
-
-
-const CardWrapper = styled.div`
-  border-bottom: 1px solid grey;
-  height: 80px;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-`
-
-const labelSize = '10px'
-const CardColorLabel = styled.div`
-  height: ${labelSize};
-  line-height: ${labelSize};
-  border-radius: 30px;
-  padding: 5px 10px 5px 10px;
-  color: white;
-  background-color: ${({color}) => color === 'green' ? colors.green : colors.orange};
+    margin: 50px 0 0 30px;
 `
 
 interface cardData {
@@ -121,30 +93,6 @@ const fakeData: cardData[] = [
         like: true
     }
 ]
-
-
-function Card({data}: any) {
-    return (
-        <CardWrapper style={{display: 'flex'}}>
-            <div>
-                <div style={{width: '120px', height: '80px', backgroundColor: 'lightgrey'}}/>
-            </div>
-            <Flex style={{justifyContent: 'space-between', width: '100%'}}>
-                <div style={{marginLeft: '20px'}}>
-                    <div>{data.name}</div>
-                    <div style={{color: colors.headerLinkInactive, marginTop: '5px'}}>
-                        {data.time}
-                        {/*12:00 - 13:00*/}
-                    </div>
-                </div>
-                <Vertical style={{justifyContent: 'space-between', alignItems: 'end'}}>
-                    <CardColorLabel color={'green'}>{data.city}</CardColorLabel>
-                    <div style={{width: '30px', height: '30px', backgroundColor: 'red'}}></div>
-                </Vertical>
-            </Flex>
-        </CardWrapper>
-    )
-}
 
 function Schedule() {
     return (
