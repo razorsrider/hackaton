@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from "nanoid";
-// import {cities} from "./Calendar";
 import {Button} from "./Login";
 import {getCities, getEvents} from "../api/api";
 
@@ -15,7 +14,6 @@ const HeaderLine = styled.div`
   justify-content: center;
   height: 85vh;
   align-items: center;
-  // height: ${headerHeight}; 
   // border-bottom: 1px solid grey;
 `
 
