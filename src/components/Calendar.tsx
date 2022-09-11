@@ -141,15 +141,15 @@ function Calendar() {
     useEffect(() => {
         // getAllParticipants().then((e) => console.log(e))
 
-        getEvents().then(data => {
-            const arr = []
-            data.map(e => {
+        getEvents().then((data: any) => {
+            const arr: any[] = []
+            data.map((e: any) => {
                 const parsed = e.geteventsbyfilters
                     .replace('(', '')
                     .replace(')', '')
                     .replaceAll('"', '')
                     .replaceAll('\/', '')
-                    .split(',' )
+                    .split(',')
 
                 arr.push({
                     eventId: parsed[0],
@@ -163,19 +163,21 @@ function Calendar() {
             })
             console.log(arr)
 
+            // @ts-ignore
             setEvents(arr)
         })
 
-        console.log(events)
-        getCities().then((data) => {
-            const arr = []
-            data.map(e => {
-                const parsed = e.getcity.replace('(', '').replace(')', '').split(',' )
+        // console.log(events)
+        getCities().then((data: any) => {
+            const arr: any[] = []
+            data.map((e: any) => {
+                const parsed = e.getcity.replace('(', '').replace(')', '').split(',')
                 arr.push({
                     id: parsed[0],
                     name: parsed[1]
                 })
             })
+            // @ts-ignore
             setCities(arr)
         })
     }, [])
@@ -185,7 +187,7 @@ function Calendar() {
                 <Vertical>
                     <Title>Города</Title>
                     <Vertical>
-                        {cities?.map(item => {
+                        {cities?.map((item: any) => {
                             return <RadioList key={nanoid()}>
                                 <input type={"radio"} id={item}/>
                                 <label style={{marginLeft: '6px'}} htmlFor={item}>{item.name}</label>

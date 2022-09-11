@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from "nanoid";
-import {cities} from "./Calendar";
+// import {cities} from "./Calendar";
 import {Button} from "./Login";
+import {getCities, getEvents} from "../api/api";
 
 const headerHeight = '80px';
 const headerLinkTextSize = '24px';
@@ -79,9 +80,55 @@ monthesDay.shift()
 
 const monthes = ['Январь', "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
 const years = [2022, 2023, 2024, 2025, 2026]
-console.log(years)
 
 function CreateEvent() {
+    const [cities, setCities] = useState([])
+    // const [directions, setDirections] = []
+    const [events, setEvents] = useState([])
+    // alert(cities)
+    useEffect(() => {
+        // getAllParticipants().then((e) => console.log(e))
+
+        getEvents().then((data: any) => {
+            const arr: any[] = []
+            data.map((e: any) => {
+                const parsed = e.geteventsbyfilters
+                    .replace('(', '')
+                    .replace(')', '')
+                    .replaceAll('"', '')
+                    .replaceAll('\/', '')
+                    .split(',')
+
+                arr.push({
+                    eventId: parsed[0],
+                    date: parsed[2],
+                    time: parsed[3],
+                    city: parsed[4],
+                    name: parsed[1],
+                    picURL: parsed[9],
+                })
+
+            })
+            console.log(arr)
+
+            // @ts-ignore
+            setEvents(arr)
+        })
+
+        // console.log(events)
+        getCities().then((data: any) => {
+            const arr: any[] = []
+            data.map((e: any) => {
+                const parsed = e.getcity.replace('(', '').replace(')', '').split(',')
+                arr.push({
+                    id: parsed[0],
+                    name: parsed[1]
+                })
+            })
+            // @ts-ignore
+            setCities(arr)
+        })
+    }, [])
     return (
         <HeaderLine>
             <form>

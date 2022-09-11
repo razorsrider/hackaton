@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from 'nanoid'
-import {cities, directions, other} from "./Calendar";
+import {directions, other} from "./Calendar";
+import {getCities, getEvents} from "../api/api";
 
 
 const Flex = styled.div`
@@ -149,13 +150,61 @@ function Card({data}: any) {
 }
 
 function Schedule() {
+    const [cities, setCities] = useState([])
+    // const [directions, setDirections] = []
+    const [events, setEvents] = useState([])
+    // alert(cities)
+    useEffect(() => {
+        // getAllParticipants().then((e) => console.log(e))
+
+        getEvents().then((data: any) => {
+            const arr: any[] = []
+            data.map((e: any) => {
+                const parsed = e.geteventsbyfilters
+                    .replace('(', '')
+                    .replace(')', '')
+                    .replaceAll('"', '')
+                    .replaceAll('\/', '')
+                    .split(',')
+
+                arr.push({
+                    eventId: parsed[0],
+                    date: parsed[2],
+                    time: parsed[3],
+                    city: parsed[4],
+                    name: parsed[1],
+                    picURL: parsed[9],
+                })
+
+            })
+            console.log(arr)
+
+            // @ts-ignore
+            setEvents(arr)
+        })
+
+        // console.log(events)
+        getCities().then((data: any) => {
+            const arr: any[] = []
+            data.map((e: any) => {
+                const parsed = e.getcity.replace('(', '').replace(')', '').split(',')
+                arr.push({
+                    id: parsed[0],
+                    name: parsed[1]
+                })
+            })
+            // @ts-ignore
+            setCities(arr)
+        })
+    }, [])
+
     return (
         <Flex>
             <Column style={{width: '200px'}}>
                 <Vertical>
                     <Title>Города</Title>
                     <Vertical>
-                        {cities.map(item => {
+                        {cities.map((item: any) => {
                             return <RadioList key={nanoid()}>
                                 <input type={"radio"} id={item}/>
                                 <label style={{marginLeft: '6px'}} htmlFor={item}>{item}</label>
