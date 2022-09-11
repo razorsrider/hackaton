@@ -65,14 +65,16 @@ const InputBox = styled.div`
 
 const InputField = styled.input`
   width: 350px;
+  border: none;
 `
 
+const btnHeight = '30px'
 const SubmitButton = styled.button`
-  margin-top: 20px;
+  margin-top: 10px;
   border-radius: 30px;
   background-color: ${colors.blue};
-  height: 50px;
-  line-height: 50px;
+  height: ${btnHeight};
+  line-height: ${btnHeight};
   width: 110px;
   color: white;
   font-weight: 700;
@@ -82,7 +84,7 @@ const SubmitButton = styled.button`
 function Header() {
     return (
         <HeaderLine>
-            <form >
+            <form>
                 <Title>Авторизация</Title>
                 <InputBox>
                     <FieldsName>Логин</FieldsName>

@@ -65,7 +65,21 @@ const InputBox = styled.div`
 
 const InputField = styled.input`
   width: 350px;
+  border: 1px solid lightgrey;
 `
+
+
+const Textarea = styled.textarea`
+  width: 350px;
+  border: 1px solid lightgrey;
+`
+
+
+const Select = styled.select`
+  // width: 350px;
+  border: 1px solid lightgrey;
+`
+
 
 const SubmitButton = styled.button`
   margin-top: 20px;
@@ -80,14 +94,31 @@ const SubmitButton = styled.button`
 
 
 function CreateEvent() {
+
+
+
     return (
         <HeaderLine>
-            <form >
-                {/*<Title>Авторизация</Title>*/}
-                {/*<InputBox>*/}
-                {/*    <FieldsName>Логин</FieldsName>*/}
-                {/*    <InputField type={"text"}/>*/}
-                {/*</InputBox>*/}
+            <form>
+                <Title>Создать мероприятие</Title>
+                <InputBox>
+                    <FieldsName>Название мероприятия</FieldsName>
+                    <InputField type={"text"}/>
+                </InputBox>
+                <InputBox>
+                    <FieldsName>Описание мероприятия</FieldsName>
+                    <Textarea/>
+                </InputBox>
+                <InputBox>
+                    <FieldsName>День проведения мероприятия</FieldsName>
+                    <Select name="cars" id="cars">
+                        {}
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="opel">Opel</option>
+                        <option value="audi">Audi</option>
+                    </Select>
+                </InputBox>
                 {/*<InputBox>*/}
                 {/*    <FieldsName>Пароль</FieldsName>*/}
                 {/*    <InputField type={"password"}/>*/}
