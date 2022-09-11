@@ -44,7 +44,7 @@ const SubmitButton = styled.div`
 const CardWrapper = styled.div`
   border-bottom: 1px solid grey;
   height: 80px;
-  padding-bottom: 10px; 
+  padding-bottom: 10px;
   margin-bottom: 10px;
 `
 
@@ -124,7 +124,6 @@ const fakeData: cardData[] = [
 
 
 function Card({data}: any) {
-    console.log(data)
     return (
         <CardWrapper style={{display: 'flex'}}>
             <div>

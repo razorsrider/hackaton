@@ -7,6 +7,7 @@ import {store} from "./store";
 import {BrowserRouter} from "react-router-dom";
 // import logo from "./logo.svg";
 import {Provider} from "react-redux";
+import 'react-day-picker/dist/style.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

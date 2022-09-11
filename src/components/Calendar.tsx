@@ -1,7 +1,9 @@
-import React from 'react'
+import { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import {colors} from '../styles/variables'
 import {nanoid} from 'nanoid'
+import { CalendarSelector } from './CalendarSelector'
+import { Like } from './Like'
 
 const Flex = styled.div`
   display: flex;
@@ -29,7 +31,7 @@ const Column = styled.div`
 const CardWrapper = styled.div`
   border-bottom: 1px solid grey;
   height: 80px;
-  padding-bottom: 10px; 
+  padding-bottom: 10px;
   margin-bottom: 10px;
 `
 
@@ -55,61 +57,129 @@ const cities: string[] = ['Все', 'Ульяновск', 'Казань', 'Са�
 const directions: string[] = ['Все', 'Общие', 'Бэкэнд', 'Фронтэнд', 'Тестирование', 'Аналитика', 'Тест']
 const other: string[] = ['Участвую', 'Ограничение по количеству']
 
-const fakeData: cardData[] = [
+
+const data = [
     {
-        name: 'Пикник с клубом кулинарии',
-        time: '12:00 - 13:00',
-        city: 'Ульяновск',
-        picURL: '',
-        like: false
+        date: new Date(2022, 8, 12),
+        events: [
+            {
+                name: 'Пикник с клубом кулинарии',
+                time: '12:00 - 13:00',
+                city: 'Ульяновск',
+                picURL: '',
+                like: false
+            },
+            {
+                name: 'Велопрогулка по центру',
+                time: '15:00 - 16:00',
+                city: 'Казань',
+                picURL: '',
+                like: false
+            },
+            {
+                name: 'Драматический театр. Постановка Лес.',
+                time: '17:00 - 20:00',
+                city: 'ДГ',
+                picURL: '',
+                like: false
+            },
+            {
+                name: 'Лазертаг',
+                time: '18:00 - 19:00',
+                city: 'Самара',
+                picURL: '',
+                like: true
+            },
+            {
+                name: 'Картинг "Форсаж"',
+                time: '19:00 - 20:00',
+                city: 'Казань',
+                picURL: '',
+                like: false
+            },
+        ],
     },
     {
-        name: 'Велопрогулка по центру',
-        time: '15:00 - 16:00',
-        city: 'Казань',
-        picURL: '',
-        like: false
+        date: new Date(2022, 8, 17),
+        events: [
+            {
+                name: 'Пикник с клубом кулинарии',
+                time: '12:00 - 13:00',
+                city: 'Ульяновск',
+                picURL: '',
+                like: false
+            },
+            {
+                name: 'Велопрогулка по центру',
+                time: '15:00 - 16:00',
+                city: 'Казань',
+                picURL: '',
+                like: false
+            },
+            {
+                name: 'Драматический театр. Постановка Лес.',
+                time: '17:00 - 20:00',
+                city: 'ДГ',
+                picURL: '',
+                like: false
+            },
+            {
+                name: 'Лазертаг',
+                time: '18:00 - 19:00',
+                city: 'Самара',
+                picURL: '',
+                like: true
+            },
+            {
+                name: 'Картинг "Форсаж"',
+                time: '19:00 - 20:00',
+                city: 'Казань',
+                picURL: '',
+                like: false
+            },
+            {
+                name: 'Настолки в офисе',
+                time: '20:00 - 23:00',
+                city: 'Все города',
+                picURL: '',
+                like: false
+            },
+            {
+                name: 'Кинопоказ в офисе',
+                time: '20:00 - 22:00',
+                city: 'Саранск',
+                picURL: '',
+                like: true
+            }
+        ],
     },
     {
-        name: 'Драматический театр. Постановка Лес.',
-        time: '17:00 - 20:00',
-        city: 'ДГ',
-        picURL: '',
-        like: false
+        date: new Date(2022, 8, 15),
+        events: [
+            {
+                name: 'Помощь приюту',
+                time: '18:00 - 20:00',
+                city: 'Ульяновск',
+                picURL: '',
+                like: false
+            },
+        ],
     },
     {
-        name: 'Лазертаг',
-        time: '18:00 - 19:00',
-        city: 'Самара',
-        picURL: '',
-        like: true
+        date: new Date(2022, 8, 23),
+        events: [
+            {
+                name: 'Уборка Леса',
+                time: '15:00 - 20:00',
+                city: 'Саратов',
+                picURL: '',
+                like: false
+            },
+        ],
     },
-    {
-        name: 'Картинг "Форсаж"',
-        time: '19:00 - 20:00',
-        city: 'Казань',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Настолки в офисе',
-        time: '20:00 - 23:00',
-        city: 'Все города',
-        picURL: '',
-        like: false
-    },
-    {
-        name: 'Кинопоказ в офисе',
-        time: '20:00 - 22:00',
-        city: 'Саранск',
-        picURL: '',
-        like: true
-    }
 ]
 
-
 function Card({data}: any) {
-    console.log(data)
     return (
         <CardWrapper style={{display: 'flex'}}>
             <div>
@@ -120,12 +190,11 @@ function Card({data}: any) {
                     <div>{data.name}</div>
                     <div style={{color: colors.headerLinkInactive, marginTop: '5px'}}>
                         {data.time}
-                        {/*12:00 - 13:00*/}
                     </div>
                 </div>
                 <Vertical style={{justifyContent: 'space-between', alignItems: 'end'}}>
                     <CardColorLabel color={'green'}>{data.city}</CardColorLabel>
-                    <div style={{width: '30px', height: '30px', backgroundColor: 'red'}}></div>
+                    <Like isLike={data.like} />
                 </Vertical>
             </Flex>
         </CardWrapper>
@@ -133,6 +202,13 @@ function Card({data}: any) {
 }
 
 function Calendar() {
+    const [selectedDay, setSelectedDay] = useState<Date>(new Date());
+    const selectedEvents = useMemo(() => {
+        const dataIndex = data.findIndex(item => item.date.getTime() === selectedDay.getTime());
+        console.log(dataIndex)
+        return dataIndex >= 0 ? data[dataIndex].events : []
+    }, [selectedDay])
+
     return (
         <Flex>
             <Column style={{width: '300px'}}>
@@ -158,8 +234,6 @@ function Calendar() {
                         })}
                     </Vertical>
                 </Vertical>
-            </Column>
-            <Column style={{width: '350px'}}>
                 <Vertical style={{marginTop: '10px'}}>
                     <Title>Прочее</Title>
                     <Vertical>
@@ -172,8 +246,11 @@ function Calendar() {
                     </Vertical>
                 </Vertical>
             </Column>
-            <Column style={{width: '40%'}}>
-                {fakeData.map(item => {
+            <Column style={{width: '20%'}}>
+                <CalendarSelector data={data} day={{selectedDay, setSelectedDay}} />
+            </Column>
+            <Column style={{width: '50%'}}>
+                {selectedEvents?.map(item => {
                     // @ts-ignore
                     return <Card data={item}/>
                 })}

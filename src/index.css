@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #9B51E0;
+  --rdp-background-color: #efefef;
+  /* Switch to dark colors for dark themes */
+  --rdp-accent-color-dark: #9B51E0;
+  /* Outline border for focused elements */
+  --rdp-outline: 1px solid #9B51E0;
+  /* Outline border for focused and selected elements */
+  --rdp-outline-selected: 1px solid #9B51E0;
+}
+
+.my-selected:not([disabled]) {
+  border: 1px solid #9B51E0;
+}
+.my-selected:hover:not([disabled]) {
+  border-color: #9B51E0;
+  color: #9B51E0;
+}
+.rdp-day.my-today {
+  font-weight: bold;
+  color: #9B51E0;
+}
